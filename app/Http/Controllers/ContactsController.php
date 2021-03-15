@@ -6,14 +6,15 @@ use App\Company;
 use App\Contact;
 use App\ContactRole;
 use App\Http\Requests\CreateContact;
+use App\Http\Requests\CreateContactAddress;
 use App\Http\Requests\UpdateContact;
-use Illuminate\Http\Request;
 
 class ContactsController extends Controller
 {
     public function index()
     {
-        $contacts = Contact::all();
+        $contacts = Contact::paginate(20);
+        // $contacts = Contact::with(['company', 'contactRole'])->paginate(20);
 
         return view('contacts.index', compact('contacts'));
     }
@@ -29,7 +30,8 @@ class ContactsController extends Controller
 
     public function store(CreateContact $request)
     {
-        Contact::create($request->all());
+        $contact = Contact::create($request->only(['first_name', 'last_name', 'company_id', 'contact_role_id']));
+        $contact->address()->create($request->only(['door', 'street', 'city', 'postcode'])); // See comments below
 
         return redirect('contacts')->with('alert', 'Contact created!');
     }
@@ -47,5 +49,22 @@ class ContactsController extends Controller
         $contact->update($request->all());
 
         return redirect('contacts')->with('alert', 'Contact updated!');
+    }
+
+    // Also possible to keep $request->all() and remove new address columns from the form request
+    // and add them here, the contact address would then be $this->contactAddressRules
+    // Adding another form request fails currently, since Laravel throws a redirect on success
+    // Validator? Not in this Laravel version :(
+    // I think this is fine for now though
+    // It is also possible to do some magic but that would require knowing where the elements start and end
+    // which can get messy so best to keep it simple for now
+    public function contactAddressRules(): array
+    {
+        return [
+            'door'     => 'required',
+            'street'   => 'required',
+            'city'     => 'required',
+            'postcode' => 'required',
+        ];
     }
 }

@@ -18,29 +18,31 @@
                     <div class="card-body">
                         <table class="table">
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Company</th>
-                                <th>Company Status</th>
-                                <th>Actions</th>
-                            </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Company</th>
+                                    <th>Company Status</th>
+                                    <th>Actions</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach($contacts as $contact)
-                                <tr>
-                                    <td>{{ $contact->id }}</td>
-                                    <td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
-                                    <td>{{ $contact->contactRole->name }}</td>
-                                    <td>{{ $contact->company->name }} ({{ $contact->company->companyType->name }})</td>
-                                    <td>{{ $contact->company->companyStatus->name }}</td>
-                                    <td><a href="{{ route('contacts.edit', $contact) }}"
-                                           class="btn btn-primary">Edit</a></td>
-                                </tr>
-                            @endforeach
+                                @foreach($contacts as $contact)
+                                    <tr>
+                                        <td>{{ $contact->id }}</td>
+                                        <td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
+                                        <td>{{ $contact->contactRole->name }}</td>
+                                        <td>{{ $contact->company->name }} ({{ $contact->company->companyType->name }})</td>
+                                        <td>{{ $contact->company->companyStatus->name }}</td>
+                                        <td><a href="{{ route('contacts.edit', $contact) }}"
+                                               class="btn btn-primary">Edit</a></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+
+                        {{ $contacts->links() }}
                     </div>
                 </div>
             </div>

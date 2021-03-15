@@ -3,15 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Contact
  *
- * @property-read \App\Company $company
- * @property-read \App\ContactRole $contactRole
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact query()
+ * @property-read Company $company
+ * @property-read ContactRole $contactRole
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact query()
  * @mixin \Eloquent
  * @property int $id
  * @property string $first_name
@@ -20,42 +22,35 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $contact_role_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact whereCompanyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact whereContactRoleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact whereFirstName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact whereLastName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Contact whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereContactRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereUpdatedAt($value)
  */
 class Contact extends Model
 {
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'first_name',
         'last_name',
-        'company_id'
+        'company_id',
+        'contact_role_id',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function company()
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function contactRole()
+    public function contactRole(): BelongsTo
     {
         return $this->belongsTo(ContactRole::class);
     }
 
+    public function address(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
 }
