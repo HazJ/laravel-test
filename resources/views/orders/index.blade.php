@@ -20,6 +20,7 @@
                                     <th>#</th>
                                     <th>UUID</th>
                                     <th>Contact</th>
+                                    <th>Number of items</th>
                                 </tr>
                             </thead>
 
@@ -29,6 +30,7 @@
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->uuid }}</td>
                                         <td>{{ $order->contact->first_name }} {{ $order->contact->last_name }}</td>
+                                        <td>{{ count($order->items) }}</td>
                                         <td><a href="{{ route('orders.edit', $order) }}" class="btn btn-primary">Edit</a></td>
                                     </tr>
                                 @endforeach

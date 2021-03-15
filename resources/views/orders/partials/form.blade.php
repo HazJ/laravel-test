@@ -49,5 +49,17 @@
                 @endif
             </div>
         </div>
+
+        <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+            <label for="price" class="col-md-4 control-label">Price</label>
+            <div class="col-md-12">
+                <input id="price" type="number" class="form-control" name="price" value="{{ old('price') }}">
+                @if ($errors->has('price'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('price') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
     </div>
 </div>

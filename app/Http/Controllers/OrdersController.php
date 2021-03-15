@@ -32,7 +32,7 @@ class OrdersController extends Controller
     public function store(CreateOrder $request): RedirectResponse
     {
         $order = Order::create($request->only(['contact_id', 'uuid']));
-        $items = $order->items()->create($request->only(['item']));
+        $items = $order->items()->create($request->only(['item', 'price']));
 
         // In a real use case, you would use a queue here
         // Could also make use of job or events here

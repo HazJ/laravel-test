@@ -26,6 +26,7 @@ class CreateOrder extends FormRequest
         return [
             'contact_id' => 'required|exists:contacts,id',
             'uuid'       => 'required|min:6|unique:orders',
+            'price'      => 'required',
             'item'       => 'required|min:2',
         ];
     }

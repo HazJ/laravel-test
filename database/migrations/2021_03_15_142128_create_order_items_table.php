@@ -13,6 +13,7 @@ class CreateOrderItemsTable extends Migration
             $table->integer('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->string('item');
+            $table->decimal('price');
             $table->timestamps();
         });
     }
